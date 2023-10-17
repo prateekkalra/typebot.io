@@ -1,5 +1,4 @@
-{"image":"mcr.microsoft.com/devcontainers/universal:2",
-  "postStartCommand":"npm run test1",
-  "postAttachCommand":"npm run test2",
-"postCreateCommand": "npm run test3"
+{
+  "image":"mcr.microsoft.com/devcontainers/universal:2",
+  "postAttachCommand":"pnpm install"
 }
