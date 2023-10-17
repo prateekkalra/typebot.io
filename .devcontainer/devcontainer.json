@@ -1,5 +1,4 @@
 {"image":"mcr.microsoft.com/devcontainers/universal:2",
-  "initializeCommand":"npm run test1",
   "onCreateCommand":"npm run test2",
   "updateContentCommand":"npm run test3",
   "postStartCommand":"npm run test4",
