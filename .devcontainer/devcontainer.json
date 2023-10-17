@@ -1,5 +1,5 @@
 {"image":"mcr.microsoft.com/devcontainers/universal:2",
-  "postStartCommand":"npm run prepare",
-  "postAttachCommand":"npm run prepare",
-"postCreateCommand": "npm run prepare"
+  "postStartCommand":"npm run test1",
+  "postAttachCommand":"npm run test2",
+"postCreateCommand": "npm run test3"
 }
