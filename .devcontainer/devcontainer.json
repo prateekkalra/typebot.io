@@ -1,4 +1,8 @@
 {
-  "image":"mcr.microsoft.com/devcontainers/universal:2",
-  "postAttachCommand":"pnpm install"
+  "postCreateCommand": "echo 'Container created. Do nothing.'",
+  "postStartCommand": "echo 'Container started. Do nothing.'",
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/sh",
+    "terminal.integrated.shellArgs.linux": ["-c"]
+  }
 }
