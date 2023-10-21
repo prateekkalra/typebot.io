@@ -16,35 +16,28 @@ import { githubLight } from '@uiw/codemirror-theme-github'
 import { LanguageName, loadLanguage } from '@uiw/codemirror-extensions-langs'
 import { isDefined } from '@udecode/plate-common'
 import { CopyButton } from '../CopyButton'
-import { linter, Diagnostic, lintGutter } from '@codemirror/lint'
-import { syntaxTree } from '@codemirror/language'
+import { linter, lintGutter } from '@codemirror/lint'
 import { tooltips } from '@codemirror/view'
+import {esLint} from '@codemirror/lang-javascript'
+import * as eslint from "eslint-linter-browserify";
+
+const lintConfig = {
+  // eslint configuration
+  parserOptions: {
+    ecmaVersion: 2019,
+    sourceType: "module",
+  },
+  env: {
+    browser: true,
+    node: true,
+  },
+  rules: {
+    semi: ["error", "never"],
+  },
+};
 
 const jsLinter = () => {
-  return linter((view) => {
-    const { state } = view
-    const tree = syntaxTree(state)
-
-    if (tree.length === state.doc.length) {
-      const errors: Diagnostic[] = []
-      tree.iterate({
-        enter: (node) => {
-          if (node.type.isError) {
-            errors.push({
-              from: node.from,
-              to: node.to,
-              severity: 'error',
-              message: `${node.name} contains invalid syntax`,
-            })
-            return false
-          }
-        },
-      })
-
-      return errors
-    }
-    return []
-  })
+  return linter(esLint(new eslint.Linter(), lintConfig))
 }
 
 type Props = {
@@ -64,7 +57,7 @@ export const CodeEditor = ({
   lang,
   onChange,
   height = '250px',
-  maxHeight = '70vh',
+  maxHeight = '400px',
   minWidth,
   withVariableButton = true,
   isReadOnly = false,
@@ -149,6 +142,10 @@ export const CodeEditor = ({
           fontFamily:
             'JetBrainsMono, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace',
         },
+        '& .cm-diagnostic': {
+          whiteSpace: 'nowrap!important',
+          zIndex:'1000!important'
+        }
       }}
     >
       <CodeMirror
@@ -169,6 +166,7 @@ export const CodeEditor = ({
         editable={!isReadOnly}
         style={{
           width: isVariableButtonDisplayed ? 'calc(100% - 32px)' : '100%',
+          maxHeight: '400px',
         }}
         spellCheck={false}
         basicSetup={{
